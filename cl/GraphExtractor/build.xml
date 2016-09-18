@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jar" name="GraphExtractor">
+  <property name="target" value="1.8"/>
+  <property name="source" value="1.8"/>
+  <property name="build.dir" value="../../bin"/>
+  <property name="debuglevel" value="source,lines,vars"/>
+	
+  <path id="classpath">
+    <fileset dir='../../lib'>
+      <include name='args4j-2.33.jar'/>
+    </fileset>
+    <fileset dir='../../lib/neo4j'>
+      <include name='*.jar'/>
+    </fileset>
+    <fileset dir='../../bin'>
+      <include name='Utils.jar'/>
+    </fileset>
+  </path>
+	
+	<manifestclasspath property="lib.list" jarfile="${build.dir}/${jar.file}">
+	   <classpath refid="classpath" />
+	</manifestclasspath>
+	
+  <fileset id='files.for.jar' dir='bin'>
+    <include name='**/*.class'/>
+  </fileset>
+	
+	
+  <target name="init">
+      <mkdir dir="bin"/>
+      <copy includeemptydirs="false" todir="bin">
+          <fileset dir="src">
+              <exclude name="**/*.java"/>
+          </fileset>
+      </copy>
+  </target>
+	
+  <target name="clean">
+    <delete dir="bin"/>
+    <delete dir="../../bin" includes="${ant.project.name}.jar"/>
+  </target>
+  
+  <target name="build" depends="init">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="classpath"/>
+        </javac>
+  </target>
+	
+  <target name="jar-pack" depends="build">
+  	<jar destfile="${build.dir}/${ant.project.name}.jar">
+  		<fileset refid='files.for.jar'/>
+  		<zipgroupfileset dir="../../lib" includes="*.jar" />
+      <manifest>
+        <attribute name="Main-Class" value="bughunter.graphextractor.Main" />
+      </manifest>
+  	</jar>
+  </target>
+ 
+  <target name="jar" depends="build">
+  	<jar destfile="${build.dir}/${ant.project.name}.jar" >
+  		<fileset refid='files.for.jar'/>
+  	  <manifest>
+        <attribute name="Main-Class" value="bughunter.graphextractor.Main" />
+        <attribute name="Class-Path" value="${lib.list}" />
+      </manifest>
+  	</jar>
+  </target>
+		
+</project>

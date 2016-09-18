@@ -1,0 +1,2 @@
+org\.junit\.tests\..*
+src/test/.*

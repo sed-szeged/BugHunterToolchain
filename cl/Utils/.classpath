@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="../../lib/xerces-2.4.0.jar"/>
+	<classpathentry kind="lib" path="../../lib/diffutils-1.2.1.jar"/>
+	<classpathentry kind="lib" path="../../lib/graphsupportlib.jar"/>
+	<classpathentry kind="lib" path="../../lib/github-3.6.0.jar"/>
+	<classpathentry kind="lib" path="../../lib/graphlib.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
