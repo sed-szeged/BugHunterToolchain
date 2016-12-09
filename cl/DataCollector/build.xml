@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jar" name="DataCollector">
+  <property name="target" value="1.7"/>
+  <property name="source" value="1.7"/>
+  <property name="debuglevel" value="source,lines,vars"/>
+  <property name="lib_path" value="../../lib/jewelcli-0.7.6.jar, ../../lib/graphlib.jar, ../../lib/graphsupportlib.jar, ../../lib/xerces-2.4.0.jar, ../../lib/diffutils-1.2.1.jar, ../../lib/github-3.6.0.jar" />
+  
+  <path id="DataCollector.classpath">
+      <pathelement location="bin"/>
+      <pathelement location="../../lib/jewelcli-0.7.6.jar"/>
+      <pathelement location="../../lib/xerces-2.4.0.jar"/>
+      <pathelement location="../../lib/diffutils-1.2.1.jar"/>
+      <pathelement location="../../lib/graphlib.jar"/>
+      <pathelement location="../../lib/graphsupportlib.jar"/>
+      <pathelement location="../../lib/github-3.6.0.jar"/>
+  </path>
+  <target name="init">
+      <mkdir dir="bin"/>
+      <copy includeemptydirs="false" todir="bin">
+          <fileset dir="src">
+              <exclude name="**/*.java"/>
+          </fileset>
+      </copy>
+  </target>
+  <target name="clean">
+      <delete dir="bin"/>
+  </target>
+  
+  <target name="build" depends="init">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="DataCollector.classpath"/>
+        </javac>
+  </target>
+	
+  <target name="jar-pack" depends="build">
+  	<jar destfile="../../bin/${ant.project.name}.jar" >
+  	  <fileset dir="bin" />
+  	  <zipfileset includes="**/*.class" src="${lib_path}"/>
+  	  <manifest>
+  		<attribute name="Main-Class" value="bughunter.datacollector.Main" />
+      </manifest>
+  	</jar>
+  </target>
+ 
+  <target name="jar" depends="build">
+	  	<jar destfile="../../bin/${ant.project.name}.jar" >
+	  	  <fileset dir="bin" />
+	  	  <manifest>
+	  		<attribute name="Main-Class" value="bughunter.datacollector.Main" />
+	      </manifest>
+	  	</jar>
+  </target>
+		
+</project>
