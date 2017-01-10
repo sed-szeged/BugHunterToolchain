@@ -36,6 +36,7 @@ import bughunter.graphextractor.metrics.MaximumNumberOfAddedLines;
 import bughunter.graphextractor.metrics.MaximumNumberOfDeletedLines;
 import bughunter.graphextractor.metrics.MaximumNumberOfElementsModifiedTogether;
 import bughunter.graphextractor.metrics.NumberOfAdditions;
+import bughunter.graphextractor.metrics.NumberOfBugs;
 import bughunter.graphextractor.metrics.NumberOfContributorChanges;
 import bughunter.graphextractor.metrics.NumberOfContributors;
 import bughunter.graphextractor.metrics.NumberOfDeletions;
@@ -90,6 +91,7 @@ public class GraphExtractor {
 		metrics.add(new SumOfDeletedLines());
 		metrics.add(new TimePassedSinceLastChange());
 		metrics.add(new WeightedAge());
+		metrics.add(new NumberOfBugs());
 		
 		//complexMetrics.add(new WeightedAge());
 	}
