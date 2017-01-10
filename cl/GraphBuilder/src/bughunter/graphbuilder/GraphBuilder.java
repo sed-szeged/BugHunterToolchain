@@ -71,12 +71,16 @@ public class GraphBuilder {
 			}
 			
 			try {
-				Graph graph = new Graph();
-				graph.loadBinary(limFile);
 				if (c.parents.size() > 0) {
 					c.prevGraph = new Graph();
+					if (this.limMap.get(c.parents.get(0)) == null) {
+						missingLims.add(c.sha);
+						continue;
+					}
 					c.prevGraph.loadBinary(this.limMap.get(c.parents.get(0)));
 				}
+				Graph graph = new Graph();
+				graph.loadBinary(limFile);
 				c.graph = graph;
 				c.connectDiff(false);
 				c.loadFiles();
@@ -92,6 +96,10 @@ public class GraphBuilder {
 	
 	private void loadGraph(Commit c) {
 		String limFile = this.limMap.get(c.sha);
+		if (limFile == null) {
+			missingLims.add(c.sha);
+			return;
+		}
 		try {
 			c.graph = new Graph();
 			c.graph.loadBinary(limFile);
@@ -512,6 +520,9 @@ public class GraphBuilder {
 			
 			for(Commit c : project.commits.values()) {
 				loadGraph(c);
+				if (c.graph == null) {
+					continue;
+				}
 				List<Node> nodes = c.graph.findNodes(new NodeType(Metric.NTYPE_LIM_CLASS));
 				for(Node n : nodes) {
 					List<Attribute> attrs = n.findAttribute(aType.atString,Metric.ATTR_LONGNAME, Metric.CONTEXT_ATTRIBUTE);
